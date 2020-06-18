@@ -38,9 +38,13 @@ public class EnemyController : MonoBehaviour
 
         //if timer is less than 0 do something
         if(timer < 0)
-        { 
+        {
             //change direction robot is walking in
-            direction = -direction;
+            vertical = !vertical;
+            if (vertical == true)
+            {
+                direction = -direction;
+            }
             //set timer back
             timer = changeTime;
         }
@@ -73,6 +77,7 @@ public class EnemyController : MonoBehaviour
             //plays the animations corresponding to to x movement
             animator.SetFloat("Move Y", 0);
             animator.SetFloat("Move X", direction);
+
         }
 
         //moves the robot by the position set
