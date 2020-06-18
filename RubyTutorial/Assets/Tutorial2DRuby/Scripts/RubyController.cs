@@ -74,6 +74,23 @@ public class RubyController : MonoBehaviour
             //function to fire projectiles
             Launch();
         }
+
+        //key to talk to npcs
+        if (Input.GetKeyDown(KeyCode.LeftAlt)) 
+        { 
+            //creates a raycast with 4 parameters
+            //starting point above the feet, the direction the player is looking in, how far to look, and the layer mask it should be interacting with
+            RaycastHit2D hit = Physics2D.Raycast(rb2D.position + Vector2.up * 0.2f, lookDirection, 1.5f, LayerMask.GetMask("NPC"));
+            //if the hit collider hits something
+            if(hit.collider != null)
+            {
+                NonPlayerCharacter character = hit.collider.GetComponent<NonPlayerCharacter>();
+                if(character != null)
+                {
+                    character.DisplayDialog();
+                }
+            }
+        }
     }
 
     void FixedUpdate()
@@ -105,7 +122,8 @@ public class RubyController : MonoBehaviour
         }
         //sets player hp and ensures that the player hp can never go lower than 0 and above max health
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
-        Debug.Log(currentHealth + "/" + maxHealth);
+        //sets the value of healthbar
+        UIHealthBar.instance.SetValue(currentHealth / (float)maxHealth);
     }
 
     void Launch()
